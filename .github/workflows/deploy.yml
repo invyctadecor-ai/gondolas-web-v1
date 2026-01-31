@@ -1,0 +1,35 @@
+name: Deploy Hostinger
+
+on:
+  push:
+    branches:
+      - master    # <--- He cambiado 'main' por 'master' para que coincida con tu git
+
+jobs:
+  web-deploy:
+    name: 🎉 Deploy
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: 🚚 Obtener código
+      uses: actions/checkout@v4
+
+    - name: 🟢 Instalar Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: 20
+
+    - name: 📦 Instalar dependencias
+      run: npm ci
+
+    - name: 🚀 Construir sitio (Build)
+      run: npm run build
+
+    - name: 📂 Sincronizar con Hostinger
+      uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+      with:
+        server: ${{ secrets.FTP_SERVER }}
+        username: ${{ secrets.FTP_USERNAME }}
+        password: ${{ secrets.FTP_PASSWORD }}
+        local-dir: ./dist/
+        server-dir: ./public_html/
