@@ -3,7 +3,7 @@ name: Deploy Hostinger
 on:
   push:
     branches:
-      - master    # <--- He cambiado 'main' por 'master' para que coincida con tu git
+      - main    # <--- He cambiado 'main' por 'master' para que coincida con tu git
 
 jobs:
   web-deploy:
